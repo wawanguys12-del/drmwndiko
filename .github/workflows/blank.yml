@@ -1,13 +1,3 @@
-# This is a basic workflow to help you get staimport zipfile
-import os
-
-# Buat folder di lokasi yang aman untuk HP/PC
-folder = "Undangan_HTML_Musik"
-os.makedirs(folder, exist_ok=True)
-
-# Simpan file HTML versi umum
-umum_html_path = os.path.join(folder, "undangan_umum.html")
-umum_html = """
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,8 +6,6 @@ umum_html = """
 <title>Undangan Pernikahan Darmawan & Iwi</title>
 <style>
   body {
-    margin: 0;
-    padding: 0;
     font-family: 'Georgia', serif;
     background-color: #fdf6f0;
     color: #333;
@@ -25,6 +13,7 @@ umum_html = """
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
     text-align: center;
   }
   .container {
@@ -33,11 +22,17 @@ umum_html = """
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     max-width: 400px;
-    animation: fadeIn 2s ease-in-out;
+    width: 90%;
   }
-  h1 { font-size: 1.8em; color: #b8860b; margin-bottom: 10px; }
-  p { margin: 8px 0; }
-  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  h1 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #b8860b;
+  }
+  p {
+    margin: 8px 0;
+    font-size: 1em;
+  }
 </style>
 </head>
 <body>
@@ -53,59 +48,3 @@ umum_html = """
   </div>
 </body>
 </html>
-"""
-with open(umum_html_path, "w", encoding="utf-8") as f:
-    f.write(umum_html)
-
-# Simpan file HTML versi khusus Aan
-aan_html_path = os.path.join(folder, "undangan_aan.html")
-aan_html = umum_html.replace(
-    "Dengan hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam pernikahan kami.",
-    "Dengan hormat, Aan, kami mengundangmu untuk hadir dalam pernikahan kami."
-)
-with open(aan_html_path, "w", encoding="utf-8") as f:
-    f.write(aan_html)
-
-# Buat ZIP berisi kedua file HTML
-zip_path = "Undangan_HTML_Musik.zip"
-with zipfile.ZipFile(zip_path, 'w') as zipf:
-    zipf.write(umum_html_path, arcname="undangan_umum.html")
-    zipf.write(aan_html_path, arcname="undangan_aan.html")
-
-print(f"Selesai! File ZIP: {zip_path}")
-rted with Actions
-
-name: CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
